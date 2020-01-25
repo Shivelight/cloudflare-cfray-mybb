@@ -95,4 +95,4 @@ with open("Upload/inc/plugins/cloudflare-cfray/cfray_data.php", "w+") as file:
 
     file.write(");")
 
-print(f"Total CF-Ray/IATA/Data center: {total}")
+print("Total CF-Ray/IATA/Data center:", total)
