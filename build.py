@@ -26,7 +26,7 @@ ISO3166_URL = (
 print("Downloading Cloudflare status components.json")
 components = json.loads(urllib.request.urlopen(CF_COMPONENT_URL).read())
 
-special_case_iata_country = {
+special_case_iata = {
     "ZDM": {"country": "Palestine", "alpha2": "PS"},
     "HKG": {"country": "Hong Kong"},
     "MFM": {"country": "China"},
@@ -79,7 +79,7 @@ with open("Upload/inc/plugins/cloudflare-cfray/cfray_data.php", "w+") as file:
                 print("Skipping component:", value["name"], "| ID:", value["id"])
                 continue
 
-            case = special_case_iata_country.get(iata["iata"], None)
+            case = special_case_iata.get(iata["iata"], None)
             if case:
                 iata = {**iata, **case}
 
