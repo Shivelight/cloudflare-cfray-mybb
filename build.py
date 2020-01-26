@@ -54,6 +54,9 @@ with open("Upload/inc/plugins/cloudflare-cfray/cfray_data.php", "w+") as file:
     total = 0
     regex = re.compile(r",\s*|\s*-\s*\(")
 
+    for component_id in CF_IGNORE_ID:
+        print("Ignoring component with ID/Group ID:", component_id)
+
     for value in components["components"]:
         if value["id"] not in CF_IGNORE_ID and value["group_id"] not in CF_IGNORE_ID:
             data = regex.split(value["name"])
@@ -73,7 +76,7 @@ with open("Upload/inc/plugins/cloudflare-cfray/cfray_data.php", "w+") as file:
             elif data_len == 4:
                 iata["city"], iata["state"], iata["country"], iata["iata"] = data
             else:
-                print("Skipped:", data)
+                print("Skipping component:", value["name"], "| ID:", value["id"])
                 continue
 
             case = special_case_iata_country.get(iata["iata"], None)
@@ -89,7 +92,8 @@ with open("Upload/inc/plugins/cloudflare-cfray/cfray_data.php", "w+") as file:
                     iata["alpha2"] = entry["alpha_2"]
 
             if not iata["alpha2"]:
-                print(iata)
+                print("Can't find Alpha-2 entry:", iata)
+
             file.write(CF_DATA_TMPL.format(**iata))
             total += 1
 
